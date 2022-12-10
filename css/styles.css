@@ -49,3 +49,17 @@ header h2 {
 		75%		{ background-color: #254878;}
 		100%	        { background-color: #04a1d5;}
   }
+
+.tab-content {
+    border: 1px solid #DDD;
+    border-top: none;
+    padding: 10px
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5); /*Using RGBA lets us change the opacity of the color 0.5 black */
+}
+
+.carousel {
+    border: solid #5637DD;
+}
