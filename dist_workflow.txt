@@ -1,0 +1,129 @@
+What You'll Do
+Prepare for building by moving your jQuery script for the carousel to an external JavaScript file.
+Install the onchange module to enable your project to to watch for changes to its files.
+Install the parallelshell module to enable your project to run multiple NPM scripts in parallel.
+Watch for any changes to your Sass file and automatically compile it to css.
+
+Instructions
+Move the jQuery script into external script file
+Open the project folder in VS Code. Inside it, create a folder named js.
+Inside the js/ folder, create a file named scripts.js.
+Open index.html and cut out the jQuery code inside the script element at the bottom (but leave the script tags) and move this code to the scripts.js file. 
+In index.html, update the <script> element from which you removed the jQuery code as follows:
+<script src="js/scripts.js"></script>
+
+
+Watching for changes, and running scripts in parallel
+First, from your bash shell inside your project folder, install the NPM package onchange as a dev-dependency:
+npm install --save-dev onchange@7.0.0
+Then install the package parallelshell with the following command, including the -E flag. The -E flag lets npm know that we want to install parallelshell at the exact 3.0.1 version this time and all times in the future. This is important here because the 3.0.2 version of parallelshell contains a bug that we wish to avoid. 
+npm install --save-dev -E parallelshell@3.0.1
+Add the following two scripts to the script object in package.json. The syntax will be slightly different based on your operating system:
+macOS:
+. . .
+    "watch:scss": "onchange 'css/*.scss' -- npm run scss",
+    "watch:all": "parallelshell 'npm run watch:scss' 'npm run lite'"
+  },
+. . .
+Windows:
+. . .
+   "watch:scss": "onchange \"css/*.scss\" -- npm run scss",
+    "watch:all": "parallelshell \"npm run watch:scss\" \"npm run lite\""
+  },
+. . .
+*** Make sure that you add a comma to the end of the line above these lines.*** There should be a comma between each script in the scripts object, except the final one.
+Update the start script as follows:
+    "start": "npm run watch:all",
+Then, type the following at the prompt to start watching for changes to the Sass file, compile it to CSS, and run the server:
+npm start
+Now, whenever you make any changes to styles.scss file, it will automatically be compiled to the corresponding .css file. 
+You can test this by making a small change to your styles.scss file, and you'll be able to see the recompilation happen in real time. 
+
+
+Automate the process of building a distribution folder by writing NPM scripts, including:
+Storing copies of all Font-Awesome icon files
+Compress or minify images
+Minify and uglify code files
+Clean up the distribution folder
+Generate the distribution files with an NPM command
+
+Instructions
+Copy Font-Awesome fonts
+Your project uses Font-Awesome fonts. These need to be copied to the distribution folder. 
+To help us do this, install the copyfiles NPM module globally as follows (you may need to use sudo on MacOS and Linux):
+npm install --save-dev copyfiles@2.2.0
+NOTE: If you are on macOS or Linux and the above command won't complete, you may need to preface it with sudo:
+sudo npm install --save-dev copyfiles@2.2.0
+Next, add the following script in package.json within the scripts object:
+. . .
+    "copyfonts": "copyfiles -f node_modules/font-awesome/fonts/* dist/fonts",
+. . .
+You can assume that all scripts you are asked to add in this section will be added to the scripts object in package.json.
+The order that they are added in does not technically matter; you may choose to alphabetize them, or order them by type, or not concern yourself with an order at all. 
+Make sure that they all have a comma at the end of each script, except for the final one.
+
+
+Compress and minify images
+We will use the imagemin-cli NPM module to compress images to a smaller size without loss of quality. Install the module as follows (you may need to use sudo on MacOS and Linux):
+npm install --save-dev imagemin-cli@5.1.0
+NOTE: Some MacOS students have encountered issues with imagemin-cli not installing its plugins due to issues with global permissions on MacOS. If this happens, try:
+sudo npm install imagemin-cli@5.1.0 --save-dev --unsafe-perm=true --allow-root
+Then add the following script:
+. . .
+   "imagemin": "imagemin img/* -o dist/img",
+. . .
+
+Concatenate, minify, and uglify 
+Install the usemin-cli npm module as below:
+npm install --save-dev usemin-cli@0.6.0
+This module will automatically install the usemin module, and the usemin module will automatically install a CSS minifier module named clean-css, a JavaScript minifier and uglifier module named uglify-js, and an HTML minification module named html-minifier.
+Add the following script below. It will tell usemin to process the HTML files specified, and it will automatically also run the CSS and JavaScript minifying and uglifying processes on any linked .css/.js files:
+. . .
+   "usemin": "usemin contactus.html -d dist --htmlmin -o dist/contactus.html && usemin aboutus.html -d dist --htmlmin -o dist/aboutus.html && usemin index.html -d dist --htmlmin -o dist/index.html",
+. . .
+Now open index.html and surround all the css links code in the <head> as follows, with the build:css and endbuild comments:
+. . .
+    <!-- build:css css/main.css -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="node_modules/bootstrap-social/bootstrap-social.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <!-- endbuild -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster|Open+Sans" />
+. . .
+Notice that we've pulled the Google fonts list out to after the endbuild comment, since it's not a local file.
+Do the same in aboutus.html and contactus.html.
+Similarly, open index.html and surround the js script code as follows:
+. . .
+    <!-- build:js js/main.js -->
+    <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <!-- endbuild -->
+. . .
+Add this change to aboutus.html and contactus.html as well.
+
+
+Automate dist folder cleanup
+Install the rimraf npm module by typing the following at the prompt:
+npm install --save-dev rimraf@3.0.2
+Then, set up the following script:
+    "clean": "rimraf dist",
+This utility simply deletes the dist folder, if it exists, and all files in it, effectively "cleaning" it. 
+
+
+Build the distribution folder
+Also add this script, which strings together commands to run a folder cleaning utility (which we'll add later), to run the copyfonts script, and to run the usemin script. 
+. . .
+    "build": "npm run clean && npm run imagemin && npm run copyfonts && npm run usemin",
+. . .
+Finally, to build the distribution folder, type the following at the prompt:
+npm run build
+This will create the dist folder containing the files that are a self-contained version of your project. 
+Take a moment to look around the contents of the dist folder and see what's inside. Especially notice that all your local CSS and JavaScript files have been merged into a single file, and if you look inside them, you can see that they have been optimized for deployment. 
+If you have a web server that hosts your website, you can now copy the contents of this folder to it and view your work online.
+
+
+Note
+There are many different workflows to ready your files for deployment. This is only one of them, so do not take it as canonical. In the real world, you will run into other methods such as using the module bundler Webpack, or task runners such as Grunt and Gulp. 

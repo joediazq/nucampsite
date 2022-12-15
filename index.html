@@ -5,15 +5,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--Bootstrap CSS-->
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 
+    
     <!-- Additional CSS must be placed after Bootstrap CSS -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster|Open+Sans" />
+    <!-- build:css css/main.css -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="node_modules/bootstrap-social/bootstrap-social.css">
-
+    <!-- endbuild -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster|Open+Sans" />
     <title>NuCamp: A Better Way To Camp</title>
 
 </head>
@@ -364,31 +365,20 @@
     </footer>
 
     <!-- jQuery must come first, then Popper.js, then the Bootstrap JavaScript plugins.-->
+    <!-- build:js js/main -->
     <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
     <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!--script to have a popup message when hovering over the reserve a campsite button-->
+    <script id="carouselPlayCode" src="js/scripts.js"></script>
     <script id="tooltipCode">
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
-    <script id="carouselPlayCode"> /*jquery method click code*/
-        $(function() {
-            $(".carousel").carousel({interval: 2000});
-            $("#carouselPause").click(function(){
-                if ($("#carouselPause").children("i").hasClass("fa-pause")) {
-                    $(".carousel").carousel("pause");
-                    $("#carouselPause").children("i").removeClass("fa-pause");
-                    $("#carouselPause").children("i").addClass("fa-play");
-                } else {
-                    $(".carousel").carousel("cycle");
-                    $("#carouselPause").children("i").removeClass("fa-play");
-                    $("#carouselPause").children("i").addClass("fa-pause");
-                }
-            });
-        });
-    </script>
+    <!-- endbuild -->
+    <!--script to have a popup message when hovering over the reserve a campsite button-->
+
+
 
 </body>
 
