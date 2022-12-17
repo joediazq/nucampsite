@@ -28,25 +28,6 @@ header h2 {
   border-bottom: 1px ridge;
   min-height: 200px; }
 
-#viewport-size, #breakpointName {
-  color: #fff;
-  padding: 10px;
-  display: inline-block;
-  border-radius: 5px;
-  animation: blinkingBackground 2s infinite; }
-
-@keyframes blinkingBackground {
-  0% {
-    background-color: #10c018; }
-  25% {
-    background-color: #1056c0; }
-  50% {
-    background-color: #ef0a1a; }
-  75% {
-    background-color: #254878; }
-  100% {
-    background-color: #04a1d5; } }
-
 .tab-content {
   border: 1px solid #DDD;
   border-top: none;
@@ -64,3 +45,11 @@ header h2 {
   right: 0;
   bottom: 0;
   z-index: 100; }
+
+#reserveModal .modal-header {
+  background-color: #17A2B8;
+  color: white; }
+
+#loginModal .modal-header {
+  background-color: #901CAD;
+  color: white; }

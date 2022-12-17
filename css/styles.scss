@@ -4,6 +4,7 @@ $color-pale: #CEC8FF;
 $color-mid: #901CAD;
 $color-dark: #60106b;
 $color-black-transparent: rgba(0, 0, 0, 0.5);
+$color-teal: #17A2B8;
 
 $body-font: "Open Sans", sans-serif;
 $header-font: "Lobster", cursive;
@@ -47,20 +48,6 @@ header {
     border-bottom: 1px ridge;
     min-height: 200px;
 }
-#viewport-size, #breakpointName {
-		color: #fff;
-		padding: 10px;
-		display: inline-block;
-		border-radius: 5px;
-		animation: blinkingBackground 2s infinite;
-	}
-	@keyframes blinkingBackground{
-		0%		{ background-color: #10c018;}
-		25%		{ background-color: #1056c0;}
-		50%		{ background-color: #ef0a1a;}
-		75%		{ background-color: #254878;}
-		100%	        { background-color: #04a1d5;}
-  }
 
 .tab-content {
     border: 1px solid #DDD;
@@ -81,4 +68,18 @@ header {
     right: 0;
     bottom: 0;
     z-index: 100;
+}
+
+#reserveModal {
+    .modal-header {
+        background-color: $color-teal;
+        color: white;
+    }
+}
+
+#loginModal {
+    .modal-header{
+        background-color: $color-mid;
+        color: white
+    }
 }
